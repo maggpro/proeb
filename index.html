@@ -529,7 +529,7 @@
     </style>
 </head>
 <body>
-    <!-- Вкладка "Проебать время" -->
+    <!-- Вкладка "Проебать врем��" -->
     <div id="game" class="content">
         <div class="game-container">
             <h2>⏱ Проебать время</h2>
@@ -581,7 +581,7 @@
         <h3>💫 Зачем проебывать Stars?</h3>
         <ul>
             <li>Для попадания в элитный клуб проёбывателей 👑</li>
-            <li>Ради получения уника��ьной справки 📜</li>
+            <li>Ради получения уникальной справки 📜</li>
             <li>Чтобы войти в историю Telegram 🌟</li>
             <li>Возможно стать частью тайного комьюнити 🎁</li>
             <li>Просто потому что можем! 💪</li>
@@ -633,7 +633,7 @@
         </button>
     </div>
 
-    <!-- ��обавляем контейнер для частиц -->
+    <!-- обавляем контейнер для частиц -->
     <div id="particles-js" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
 
     <!-- Добавляем библиотеки -->
@@ -740,7 +740,7 @@
                 <span class="game-button-text">Начать проёб времени</span>
             `;
 
-            // Обновляем реко��д
+            // Обновляем рекорд
             let record = parseInt(localStorage.getItem('gameRecord') || '0');
             if (gameTime > record) {
                 localStorage.setItem('gameRecord', gameTime);
@@ -807,7 +807,7 @@
         async function loadRating() {
             try {
                 const userId = tg.initDataUnsafe?.user?.id;
-                const response = await fetch(`https://proebalstars.ru/api/get_rating${userId ? `?user_id=${userId}` : ''}`);
+                const response = await fetch(`http://localhost:8080/api/get_rating${userId ? `?user_id=${userId}` : ''}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -957,7 +957,7 @@
                     if (userId) {
                         const starsEarned = 60 * STARS_PER_SECOND;
 
-                        const response = await fetch('https://proebalstars.ru/api/update_time_stars', {
+                        const response = await fetch('http://localhost:8080/api/update_time_stars', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
