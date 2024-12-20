@@ -547,6 +547,15 @@
             font-size: 16px;
             font-weight: bold;
         }
+
+        .game-button:disabled {
+            cursor: not-allowed;
+            background: var(--tg-theme-hint-color);
+        }
+
+        .game-button:disabled:hover {
+            transform: none;
+        }
     </style>
 </head>
 <body>
@@ -693,8 +702,7 @@
         tg.expand();
 
         // Определяем базовый URL для API
-        const API_BASE_URL = 'http://localhost:8080'; // для локальной разработки
-        // const API_BASE_URL = 'https://your-domain.com'; // для продакшена
+        const API_BASE_URL = 'https://api.proebalstars.com'; // URL вашего сервера
 
         // Функция переключения вкладок
         function showTab(tabId) {
@@ -839,15 +847,33 @@
             });
         }
 
-        // Обновим функцию toggleGame
+        // Функция для проверки доступа через Telegram
+        function checkTelegramAccess() {
+            if (!tg.initDataUnsafe?.user?.id) {
+                tg.showPopup({
+                    title: '⚠️ Доступ запрещен',
+                    message: 'Для проёба времени откройте игру через Telegram бота @ProebalStarsBot',
+                    buttons: [{type: 'close'}]
+                });
+                return false;
+            }
+            return true;
+        }
+
+        // Обновляем функцию toggleGame
         function toggleGame() {
+            // Проверяем доступ перед запуском игры
+            if (!gameInterval && !checkTelegramAccess()) {
+                return;
+            }
+
             const button = document.getElementById('gameButton');
             const buttonText = button.querySelector('.game-button-text');
             const buttonIcon = button.querySelector('.game-button-icon');
             const gameContainer = document.querySelector('.game-container');
 
             if (gameInterval) {
-                // Останавливаем игру
+                // Останавливае�� игру
                 clearInterval(gameInterval);
                 gameInterval = null;
                 buttonText.textContent = 'Начать проёб времени';
@@ -872,7 +898,7 @@
                 gameContainer.classList.add('game-active');
                 document.getElementById('earnedStars').textContent = '0.0000';
 
-                let lastRewardTime = 0; // Время последнего начисления Stars
+                let lastRewardTime = 0;
 
                 gameInterval = setInterval(() => {
                     gameTime++;
@@ -882,36 +908,46 @@
                     const currentStars = (gameTime * 0.0001).toFixed(4);
                     document.getElementById('earnedStars').textContent = currentStars;
 
-                    // Проверяем, прошло ли 60 секунд с последнего начисления
+                    // Проверяем, прошло ли 60 секунд
                     if (gameTime - lastRewardTime >= 60) {
-                        const earnedStars = 0.006; // 60 * 0.0001
+                        const earnedStars = 0.006;
                         lastRewardTime = gameTime;
 
                         // Сохраняем заработанные Stars
-                        if (tg.initDataUnsafe?.user?.id) {
-                            fetch(`${API_BASE_URL}/api/add_time_stars`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    user_id: tg.initDataUnsafe.user.id,
-                                    username: tg.initDataUnsafe.user.username,
-                                    stars: earnedStars
-                                })
-                            }).then(response => response.json())
-                            .then(data => {
-                                // Показываем уведомление о начислении
-                                showNotification(`Начислено ${earnedStars} Stars за проёб времени! 🎉`);
+                        fetch(`${API_BASE_URL}/api/add_time_stars`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                user_id: tg.initDataUnsafe.user.id,
+                                username: tg.initDataUnsafe.user.username,
+                                stars: earnedStars
                             })
-                            .catch(error => {
-                                console.error('Ошибка при сохранении Stars:', error);
-                            });
-                        }
+                        }).then(response => response.json())
+                        .then(data => {
+                            showNotification(`Начислено ${earnedStars} Stars за проё�� времени! 🎉`);
+                        })
+                        .catch(error => {
+                            console.error('Ошибка при сохранении Stars:', error);
+                        });
                     }
                 }, 1000);
             }
         }
+
+        // При загрузке страницы проверяем, открыто ли приложение через Telegram
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameButton = document.getElementById('gameButton');
+
+            if (!tg.initDataUnsafe?.user?.id) {
+                gameButton.disabled = true;
+                gameButton.style.opacity = '0.7';
+                gameButton.title = 'Откройте игру через Telegram';
+            }
+
+            showTab('game');
+        });
 
         // Загружаем рекорд при старте
         const savedRecord = localStorage.getItem('gameRecord');
