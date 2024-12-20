@@ -598,6 +598,12 @@
             font-weight: 500;
             color: var(--tg-theme-text-color, #000000);
         }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--tg-theme-text-color, #000000);
+        }
     </style>
 </head>
 <body>
@@ -662,8 +668,8 @@
         <p>1. Выберите сумму Stars для проёба 💸<br>
             2. Получите уникальную справку о проёбе 📜<br>
             3. Займите место в рейтинге проёбывателей 🏆<br>
-            4. Хвастайтесь перед друзьями своими достижениями 🌟</p>
-        <h3>🎁 Секретны бонус!</h3>
+            4. Хвастайтесь перед друзьями своими дост��жениями 🌟</p>
+        <h3>🎁 Секреты бонус!</h3>
         <p>При достижении высокой активности комьюнити и большого интереса к проекту, мы планируем запустить airdrop тайной монеты для самых активных участников!</p>
         <h3>⚡️ Как получить шанс на airdrop?</h3>
         <ul>
@@ -718,7 +724,7 @@
         tg.ready();
 
         // Конфигурация API
-        const API_BASE_URL = 'http://localhost:8080';  // URL для локальной разр��ботки
+        const API_BASE_URL = 'https://your-api-domain.com'; // Замените на ваш домен
 
         // Глобальные переменные
         let gameInterval;
@@ -827,7 +833,7 @@
             if (gameTime > record) {
                 localStorage.setItem('gameRecord', gameTime);
                 document.getElementById('gameRecord').textContent = gameTime;
-                showConfetti(); // Добавляем конфетти при рекорде
+                showConfetti(); // Добавляем конфетти пр�� рекорде
             }
 
             // Отправляем Stars в бота только если набрали хотя бы 0.0001
@@ -900,7 +906,7 @@
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.error('Ошибка ответа:', errorText);
+                    console.error('Ошиб��а ответа:', errorText);
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
@@ -973,7 +979,7 @@
 
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', () => {
-            // Показываем вкладку игры по умолчанию
+            // Показывам вкладку игры по умолчанию
             showTab('game');
 
             // Загружаем рейтинг
@@ -1070,7 +1076,7 @@
                             }
                         }
                     } else {
-                        console.log('Приложение не запущено через Telegram');
+                        console.log('Приложение не запущено чрез Telegram');
                     }
                     lastSavedMinute = minutes;
                 } catch (error) {
@@ -1194,6 +1200,91 @@
         document.querySelector('#about p:nth-child(8)').textContent =
             'При достижении высокой активности комьюнити и большого интереса к проекту, ' +
             'мы планируем запустить airdrop тайной монеты для самых активных участников!';
+
+        // Функция обновления рейтинга
+        async function updateRating() {
+            try {
+                const userId = tg.initDataUnsafe?.user?.id;
+                const response = await fetch(`${API_BASE_URL}/api/get_rating${userId ? `?user_id=${userId}` : ''}`);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const ratingContainer = document.getElementById('rating');
+                    ratingContainer.innerHTML = ''; // Очищаем текущий рейтинг
+
+                    // Обновляем список
+                    data.top_users.forEach((user, index) => {
+                        const [username, userId, stars] = user;
+                        const position = index + 1;
+
+                        const ratingItem = document.createElement('div');
+                        ratingItem.className = 'rating-item';
+                        ratingItem.innerHTML = `
+                            <div class="rating-position">${position}</div>
+                            <div class="rating-medal">${position <= 3 ? ['🥇','🥈','🥉'][position-1] : '👑'}</div>
+                            <div class="rating-info">
+                                <div class="rating-username">${username || 'Пользователь'}</div>
+                                <div class="stars-total">
+                                    <span>${stars.toFixed(4)}</span>
+                                    <span>⭐️</span>
+                                </div>
+                            </div>
+                        `;
+                        ratingContainer.appendChild(ratingItem);
+                    });
+
+                    // Обновляем позицию пользователя если она есть
+                    if (data.user_position) {
+                        document.getElementById('userPosition').textContent = data.user_position.position;
+                        document.getElementById('totalStars').textContent = data.user_position.total_stars.toFixed(4);
+                        document.getElementById('totalStarsLost').textContent = data.user_position.stars_lost.toFixed(4);
+                        document.getElementById('totalStarsTime').textContent = data.user_position.stars_time.toFixed(4);
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка при обновлении рейтинга:', error);
+            }
+        }
+
+        // Обновляем рейтинг каждую минуту
+        setInterval(updateRating, 60000);
+
+        // Обн��вляем рейтинг при первой загрузке
+        document.addEventListener('DOMContentLoaded', updateRating);
+
+        // Обновляем рейтинг после каждого сохранения Stars
+        async function celebrateMinute() {
+            // ... существующий код ...
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Данные обновления:', data);
+                if (data.total_stars) {
+                    document.getElementById('totalStars').textContent = data.total_stars.toFixed(4);
+                    document.getElementById('totalStarsLost').textContent = data.stars_lost.toFixed(4);
+                    document.getElementById('totalStarsTime').textContent = data.stars_time.toFixed(4);
+
+                    // Обновляем рейтинг после обновления Stars
+                    await updateRating();
+                }
+            }
+            // ... остальной код ...
+        }
+
+        function showLoading(container) {
+            container.innerHTML = '<div class="loading">Обновление рейтинга...</div>';
+        }
+
+        // Добавим стили
+        const style = document.createElement('style');
+        style.textContent += `
+            .loading {
+                text-align: center;
+                padding: 20px;
+                color: var(--tg-theme-text-color, #000000);
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
