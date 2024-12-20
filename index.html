@@ -94,33 +94,109 @@
         .rating-item {
             display: flex;
             align-items: center;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 8px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
             margin: 8px 0;
-            transition: transform 0.3s ease;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .rating-item:hover {
-            transform: scale(1.02);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .rating-position {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(45deg, #2481cc, #23a6d5);
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .rating-medal {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+
+        .rating-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .rating-username {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--tg-theme-text-color, #000);
+        }
+
+        .stars-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stars-total {
             font-size: 18px;
             font-weight: bold;
-            margin-right: 10px;
+            color: var(--tg-theme-button-color, #2481cc);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stars-breakdown {
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .stars-lost, .stars-time {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .stars-lost:hover, .stars-time:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .current-user {
+            background: linear-gradient(45deg, rgba(36, 129, 204, 0.1), rgba(35, 166, 213, 0.1));
+            border: 2px solid var(--tg-theme-button-color, #2481cc);
+        }
+
+        .current-user .rating-position {
+            background: var(--tg-theme-button-color, #2481cc);
+        }
+
+        .rating-empty {
+            text-align: center;
+            padding: 30px;
+            font-size: 18px;
+            color: var(--tg-theme-hint-color, #999);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            margin: 20px 0;
         }
 
         .game-container {
@@ -290,64 +366,79 @@
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
-            width: 100%;
+            padding: 0 5px;
         }
 
         .rating-item {
             display: flex;
             align-items: center;
-            padding: 8px 10px;
+            padding: 8px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             margin: 4px 0;
             font-size: 14px;
-            width: 100%;
-            box-sizing: border-box;
+            gap: 8px;
         }
 
         .rating-position {
-            width: 30px;
-            text-align: right;
-            margin-right: 8px;
+            min-width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(45deg, #2481cc, #23a6d5);
+            border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .rating-medal {
             width: 20px;
             text-align: center;
-            margin-right: 8px;
+            flex-shrink: 0;
         }
 
         .rating-info {
             flex: 1;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-width: 0; /* Предотвращает выход за границы */
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
         }
 
         .rating-username {
+            font-size: 14px;
             font-weight: 500;
-            margin-right: 8px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 150px;
-        }
-
-        .rating-stars {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-            white-space: nowrap;
-            margin-left: 8px;
-            flex-shrink: 0;
         }
 
         .stars-details {
             display: flex;
+            align-items: center;
             gap: 8px;
-            flex-wrap: nowrap;
+            font-size: 12px;
+        }
+
+        .stars-total {
+            font-weight: bold;
+            color: var(--tg-theme-button-color, #2481cc);
+        }
+
+        .stars-breakdown {
+            display: flex;
+            gap: 8px;
+            color: var(--tg-theme-hint-color, #999);
+        }
+
+        .stars-lost, .stars-time {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
         }
 
         .user-position {
@@ -356,29 +447,10 @@
             left: 0;
             right: 0;
             background: rgba(255, 255, 255, 0.95);
-            padding: 10px;
+            padding: 8px;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            display: none;
-        }
-
-        .user-position.active {
-            display: block;
-        }
-
-        /* Стилизация скроллбара */
-        .rating-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .rating-list::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 3px;
-        }
-
-        .rating-list::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
+            z-index: 100;
         }
 
         .current-user {
@@ -386,7 +458,7 @@
             border: 1px solid var(--tg-theme-button-color, #2481cc);
         }
 
-        /* Добавляем в секцию стилей */
+        /* Добавляем в секцию стией */
         .social-button {
             display: inline-block;
             background: linear-gradient(45deg, #2481cc, #23a6d5);
@@ -554,7 +626,7 @@
                     </div>
                     <div class="total-detail">
                         <span class="detail-icon">⏱</span>
-                        <span class="detail-label">За время:</span>
+                        <span class="detail-label">а время:</span>
                         <span class="detail-value" id="totalStarsTime">0.0000</span>
                     </div>
                 </div>
@@ -591,7 +663,7 @@
             2. Получите уникальную справку о проёбе 📜<br>
             3. Займите место в рейтинге проёбывателей 🏆<br>
             4. Хвастайтесь перед друзьями своими достижениями 🌟</p>
-        <h3>🎁 Секретный бонус!</h3>
+        <h3>🎁 Секретны бонус!</h3>
         <p>При достижении высокой активности комьюнити и большого интереса к проекту, мы планируем запустить airdrop тайной монеты для самых активных участников!</p>
         <h3>⚡️ Как получить шанс на airdrop?</h3>
         <ul>
@@ -612,7 +684,7 @@
         <div class="rating-container">
             <h2>🏆 Рейтинг проёбывателей</h2>
             <div id="ratingList" class="rating-list">
-                <!-- Сюда будет добавлен список пользователей -->
+                <!-- юда будет добавлен список пользователей -->
             </div>
             <div id="userPosition" class="user-position">
                 <!-- Сюда будет добавлена позиция текущего пользователя -->
@@ -633,7 +705,7 @@
         </button>
     </div>
 
-    <!-- обавляем контейнер для частиц -->
+    <!-- Добавляем контейнер для частиц -->
     <div id="particles-js" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
 
     <!-- Добавляем библиотеки -->
@@ -646,7 +718,7 @@
         tg.ready();
 
         // Конфигурация API
-        const API_BASE_URL = 'https://six-cities-smoke.loca.lt';  // URL от localtunnel
+        const API_BASE_URL = 'http://localhost:8080';  // URL для локальной разр��ботки
 
         // Глобальные переменные
         let gameInterval;
@@ -845,9 +917,10 @@
 
                 if (data.top_users && data.top_users.length > 0) {
                     data.top_users.forEach((user, index) => {
+                        console.log('Обработка пользователя:', user);
                         const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '👑';
-                        const username = user[0] || 'Пользователь';
-                        const totalStars = parseFloat(user[2]) || 0;
+                        const username = user.username || 'Пользователь';
+                        const totalStars = parseFloat(user.stars) || 0;
 
                         const itemHtml = `
                             <div class="rating-item">
@@ -864,12 +937,14 @@
                         ratingList.innerHTML += itemHtml;
                     });
                 } else {
+                    console.log('Нет данных о пользователях');
                     ratingList.innerHTML = '<div class="rating-empty">😴 Пока никто не проебал ни одной Stars!</div>';
                 }
 
                 // Показываем позицию текущего пользователя
                 const userPosition = document.getElementById('userPosition');
                 if (userPosition && data.user_position) {
+                    console.log('Позиция пользователя:', data.user_position);
                     userPosition.innerHTML = `
                         <div class="rating-item current-user">
                             <div class="rating-position">${data.user_position.position}</div>
@@ -883,6 +958,8 @@
                         </div>
                     `;
                     userPosition.classList.add('active');
+                } else {
+                    console.log('Нет данных о позиции пользователя');
                 }
 
             } catch (error) {
@@ -902,7 +979,7 @@
             // Загружаем рейтинг
             loadRating();
 
-            // Обновляем рейтинг каждые 30 секунд
+            // Обновляем рейтинг кажые 30 секунд
             setInterval(loadRating, 30000);
         });
 
@@ -1001,7 +1078,7 @@
                 }
             }
 
-            // Запускаем конфетти
+            // Запускаем конфтти
             confetti({
                 particleCount: 50,
                 spread: 70,
@@ -1087,7 +1164,7 @@
             const currentTime = Date.now();
             const timeDiff = currentTime - lastUpdateTimestamp;
 
-            // Если разница во времени больше 1.5 секунд (с небольшим запасом для лагов)
+            // Если разница во времени больше 1.5 секунд (с нбольшим запасом для лагов)
             if (timeDiff > 1500) {
                 const notification = document.createElement('div');
                 notification.className = 'minute-notification error';
@@ -1109,13 +1186,13 @@
             return false;
         }
 
-        // Исправляем текст в разделе "О проекте"
+        // Исправляем ткст в разделе "О проекте"
         document.querySelector('#about p:nth-child(3)').textContent =
             'Stars - это внутренняя валюта Telegram, которую можно получить за подписку на Telegram Premium. ' +
             'Обычно Stars используются для поддержки каналов и ботов, но мы предлагаем более интересный способ их применения! 😎';
 
         document.querySelector('#about p:nth-child(8)').textContent =
-            'При достижен��и высокой активности комьюнити и большого интереса к проекту, ' +
+            'При достижении высокой активности комьюнити и большого интереса к проекту, ' +
             'мы планируем запустить airdrop тайной монеты для самых активных участников!';
     </script>
 </body>
