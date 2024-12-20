@@ -458,7 +458,7 @@
             border: 1px solid var(--tg-theme-button-color, #2481cc);
         }
 
-        /* Добавляем в секцию стией */
+        /* Добавляем в секцию стий */
         .social-button {
             display: inline-block;
             background: linear-gradient(45deg, #2481cc, #23a6d5);
@@ -547,7 +547,7 @@
             margin-top: 10px;
         }
 
-        /* Стили для нового блока с общим количеством Stars */
+        /* Стили для нового блока с о��щим количеством Stars */
         .game-total-container {
             background: rgba(255, 255, 255, 0.8);
             border-radius: 12px;
@@ -724,7 +724,8 @@
         tg.ready();
 
         // Конфигурация API
-        const API_BASE_URL = 'https://your-api-domain.com'; // Замените на ваш домен
+        const API_BASE_URL = 'http://localhost:8080';  // для локальной разработки
+        // const API_BASE_URL = 'https://your-production-api.com'; // для продакшена
 
         // Глобальные переменные
         let gameInterval;
@@ -833,7 +834,7 @@
             if (gameTime > record) {
                 localStorage.setItem('gameRecord', gameTime);
                 document.getElementById('gameRecord').textContent = gameTime;
-                showConfetti(); // Добавляем конфетти пр�� рекорде
+                showConfetti(); // Добавляем конфетти при рекорде
             }
 
             // Отправляем Stars в бота только если набрали хотя бы 0.0001
@@ -906,7 +907,7 @@
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.error('Ошиб��а ответа:', errorText);
+                    console.error('Ошибка ответа:', errorText);
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
@@ -982,7 +983,7 @@
             // Показывам вкладку игры по умолчанию
             showTab('game');
 
-            // Загружаем рейтинг
+            // Згружаем рейтинг
             loadRating();
 
             // Обновляем рейтинг кажые 30 секунд
@@ -1249,7 +1250,7 @@
         // Обновляем рейтинг каждую минуту
         setInterval(updateRating, 60000);
 
-        // Обн��вляем рейтинг при первой загрузке
+        // Обновляем рейтинг при первой загрузке
         document.addEventListener('DOMContentLoaded', updateRating);
 
         // Обновляем рейтинг после каждого сохранения Stars
@@ -1276,15 +1277,15 @@
         }
 
         // Добавим стили
-        const style = document.createElement('style');
-        style.textContent += `
+        const updateStyle = document.createElement('style');
+        updateStyle.textContent = `
             .loading {
                 text-align: center;
                 padding: 20px;
                 color: var(--tg-theme-text-color, #000000);
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(updateStyle);
     </script>
 </body>
 </html>
