@@ -702,7 +702,7 @@
         tg.expand();
 
         // Определяем базовый URL для API
-        const API_BASE_URL = 'https://89.111.169.43'; // Используем HTTPS с самоподписанным сертификатом
+        const API_BASE_URL = 'http://89.111.169.43:8080'; // Возвращаемся к HTTP
 
         // Функция переключения вкладок
         function showTab(tabId) {
@@ -738,103 +738,59 @@
         // Функция загрузки рейтинга
         async function loadRating() {
             const ratingList = document.getElementById('ratingList');
-            const currentUser = document.getElementById('currentUser');
             if (!ratingList) {
-                console.error('��лемент ratingList не найден');
+                console.error('Элемент ratingList не найден');
                 return;
             }
 
             try {
                 ratingList.innerHTML = '<div class="rating-loading">Загрузка рейтинга...</div>';
 
-                const response = await fetch(`${API_BASE_URL}/api/get_rating`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
+                // Используем WebSocket для получения данных
+                const ws = new WebSocket('ws://89.111.169.43:8080/api/get_rating');
+
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    console.log('Получены данные рейтинга:', data);
+
+                    if (!data.top_users || !Array.isArray(data.top_users)) {
+                        throw new Error('Некорректные данные рейтинга');
                     }
-                });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                    let html = '';
+                    if (data.top_users.length > 0) {
+                        data.top_users.forEach((user, index) => {
+                            const position = index + 1;
+                            const medal = position <= 3 ? ['🥇','🥈','🥉'][position-1] : '👑';
 
-                const data = await response.json();
-
-                console.log('Получены данные рейтинга:', data);
-
-                if (!data.top_users || !Array.isArray(data.top_users)) {
-                    throw new Error('Некорректные данные рейтинга');
-                }
-
-                let html = '';
-                let currentUserPosition = -1;
-                let currentUserData = null;
-
-                // Если есть данные о текущем пользователе из Telegram
-                const currentTgUser = tg.initDataUnsafe?.user;
-
-                if (data.top_users.length > 0) {
-                    data.top_users.forEach((user, index) => {
-                        const position = index + 1;
-                        const medal = position <= 3 ? ['🥇','🥈','🥉'][position-1] : '👑';
-
-                        // Проверяем, является ли это текущим пользователем
-                        if (currentTgUser && user[0] === currentTgUser.username) {
-                            currentUserPosition = position;
-                            currentUserData = user;
-                        }
-
-                        html += `
-                            <div class="rating-item">
-                                <div class="rating-position">${position}</div>
-                                <div class="rating-medal">${medal}</div>
-                                <div class="rating-info">
-                                    <div class="rating-top">
+                            html += `
+                                <div class="rating-item">
+                                    <div class="rating-position">${position}</div>
+                                    <div class="rating-medal">${medal}</div>
+                                    <div class="rating-info">
                                         <div class="rating-username">${user[0]}</div>
-                                        <div class="rating-total">${parseFloat((user[2] || 0) + (user[3] || 0)).toFixed(1)}⭐️</div>
-                                    </div>
-                                    <div class="rating-stats">
-                                        <div class="rating-stat">
-                                            <span>💰</span>
-                                            <span>${parseFloat(user[2] || 0).toFixed(1)}</span>
-                                        </div>
-                                        <div class="rating-stat">
-                                            <span>⏱</span>
-                                            <span>${parseFloat(user[3] || 0).toFixed(1)}</span>
+                                        <div class="rating-stars">
+                                            ${parseFloat(user[2]).toFixed(4)}⭐️
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    html = '<div class="rating-empty">😴 Пока никто не проебал ни одной Stars!</div>';
-                }
+                            `;
+                        });
+                    } else {
+                        html = '<div class="rating-empty">😴 Пока никто не проебал ни одной Stars!</div>';
+                    }
 
-                ratingList.innerHTML = html;
+                    ratingList.innerHTML = html;
+                };
 
-                // Обновляем информацию о текущем пользователе
-                if (currentUserPosition !== -1 && currentUserData) {
-                    currentUser.style.display = 'block';
-                    const medal = currentUserPosition <= 3 ? ['🥇','🥈','🥉'][currentUserPosition-1] : '👑';
-
-                    currentUser.querySelector('.current-user-medal').textContent = medal;
-                    currentUser.querySelector('.current-user-name').textContent =
-                        `${currentUserPosition}. ${currentUserData[0]}`;
-                    currentUser.querySelector('.rating-total').textContent =
-                        `${parseFloat((currentUserData[2] || 0) + (currentUserData[3] || 0)).toFixed(1)}⭐️`;
-                    currentUser.querySelector('.current-user-bought').textContent =
-                        parseFloat(currentUserData[2] || 0).toFixed(1);
-                    currentUser.querySelector('.current-user-earned').textContent =
-                        parseFloat(currentUserData[3] || 0).toFixed(1);
-                } else {
-                    currentUser.style.display = 'none';
-                }
+                ws.onerror = (error) => {
+                    console.error('Ошибка WebSocket:', error);
+                    ratingList.innerHTML = '<div class="rating-error">❌ Ошибка загрузки рейтинга</div>';
+                };
 
             } catch (error) {
                 console.error('Ошибка загрузки рейтинга:', error);
-                ratingList.innerHTML = `<div class="rating-error">❌ Ошибка загрузки рейтинга: ${error.message}</div>`;
-                currentUser.style.display = 'none';
+                ratingList.innerHTML = '<div class="rating-error">❌ Ошибка загрузки рейтинга</div>';
             }
         }
 
@@ -870,7 +826,7 @@
             return true;
         }
 
-        // Обновляем функцию toggleGame
+        // Обновляе�� функцию toggleGame
         function toggleGame() {
             // Проверяем доступ перед запуском игры
             if (!gameInterval && !checkTelegramAccess()) {
