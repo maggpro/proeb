@@ -563,7 +563,7 @@
     <div id="rating" class="content">
         <div class="rating-container">
             <div class="rating-header">
-                <h2>Рейтинг проёбывателей №211</h2>
+                <h2>Рейтинг проёбывателей №3</h2>
             </div>
             <div class="rating-wrapper">
                 <div id="ratingList">
@@ -600,7 +600,7 @@
                 <div class="stat-card">
                     <div class="stat-icon">🏆</div>
                     <div class="stat-info">
-                        <div class="stat-label">Рекорд сесси��</div>
+                        <div class="stat-label">Рекорд сессии</div>
                         <div class="stat-value"><span id="gameRecord">0</span></div>
                     </div>
                 </div>
@@ -629,7 +629,7 @@
 
             <div class="about-section">
                 <h3>⭐️ Что такое Stars?</h3>
-                <p>Stars - это внутренняя валюта Telegram, которую ��жно получть за подписку на Telegram Premium. Обычно Stars используются для поддержки каналов и ботов, но мы предлагаем более интересный способ их применения! 😎</p>
+                <p>Stars - это внутренняя валюта Telegram, кот��рую можно получть за подписку на Telegram Premium. Обычно Stars используются для поддержки каналов и ботов, но мы предлагаем более интересный способ их применения! 😎</p>
             </div>
 
             <div class="about-section">
@@ -746,47 +746,44 @@
             try {
                 ratingList.innerHTML = '<div class="rating-loading">Загрузка рейтинга...</div>';
 
-                // Используем WebSocket для получения данных
-                const ws = new WebSocket('ws://89.111.169.43:8080/api/get_rating');
-
-                ws.onmessage = (event) => {
-                    const data = JSON.parse(event.data);
-                    console.log('Получены данные рейтинга:', data);
-
-                    if (!data.top_users || !Array.isArray(data.top_users)) {
-                        throw new Error('Некорректные данные рейтинга');
+                const response = await fetch(`${API_BASE_URL}/api/get_rating`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
+                });
 
-                    let html = '';
-                    if (data.top_users.length > 0) {
-                        data.top_users.forEach((user, index) => {
-                            const position = index + 1;
-                            const medal = position <= 3 ? ['🥇','🥈','🥉'][position-1] : '👑';
+                const data = await response.json();
+                console.log('Получены данные рейтинга:', data);
 
-                            html += `
-                                <div class="rating-item">
-                                    <div class="rating-position">${position}</div>
-                                    <div class="rating-medal">${medal}</div>
-                                    <div class="rating-info">
-                                        <div class="rating-username">${user[0]}</div>
-                                        <div class="rating-stars">
-                                            ${parseFloat(user[2]).toFixed(4)}⭐️
-                                        </div>
+                if (!data.top_users || !Array.isArray(data.top_users)) {
+                    throw new Error('Некорректные данные рейтинга');
+                }
+
+                let html = '';
+                if (data.top_users.length > 0) {
+                    data.top_users.forEach((user, index) => {
+                        const position = index + 1;
+                        const medal = position <= 3 ? ['🥇','🥈','🥉'][position-1] : '👑';
+
+                        html += `
+                            <div class="rating-item">
+                                <div class="rating-position">${position}</div>
+                                <div class="rating-medal">${medal}</div>
+                                <div class="rating-info">
+                                    <div class="rating-username">${user[0]}</div>
+                                    <div class="rating-stars">
+                                        ${parseFloat(user[2]).toFixed(4)}⭐️
                                     </div>
                                 </div>
-                            `;
-                        });
-                    } else {
-                        html = '<div class="rating-empty">😴 Пока никто не проебал ни одной Stars!</div>';
-                    }
+                            </div>
+                        `;
+                    });
+                } else {
+                    html = '<div class="rating-empty">😴 Пока никто не проебал ни одной Stars!</div>';
+                }
 
-                    ratingList.innerHTML = html;
-                };
-
-                ws.onerror = (error) => {
-                    console.error('Ошибка WebSocket:', error);
-                    ratingList.innerHTML = '<div class="rating-error">❌ Ошибка загрузки рейтинга</div>';
-                };
+                ratingList.innerHTML = html;
 
             } catch (error) {
                 console.error('Ошибка загрузки рейтинга:', error);
@@ -818,7 +815,7 @@
             if (!tg.initDataUnsafe?.user?.id) {
                 tg.showPopup({
                     title: '⚠️ Доступ запрещен',
-                    message: 'Для проёба времени откройте игру через Telegram бота @ProebalStarsBot',
+                    message: 'Для проёба вре��ени откройте игру через Telegram бота @ProebalStarsBot',
                     buttons: [{type: 'close'}]
                 });
                 return false;
@@ -826,7 +823,7 @@
             return true;
         }
 
-        // Обновляе�� функцию toggleGame
+        // Обновляем функцию toggleGame
         function toggleGame() {
             // Проверяем доступ перед запуском игры
             if (!gameInterval && !checkTelegramAccess()) {
@@ -860,7 +857,7 @@
             } else {
                 // Запускаем игру
                 buttonText.textContent = 'Остановить проёб';
-                buttonIcon.textContent = '���';
+                buttonIcon.textContent = '��';
                 gameContainer.classList.add('game-active');
                 document.getElementById('earnedStars').textContent = '0.0000';
 
