@@ -702,7 +702,7 @@
         tg.expand();
 
         // Определяем базовый URL для API
-        const API_BASE_URL = 'https://89.111.169.43'; // Используем HTTPS
+        const API_BASE_URL = 'https://89.111.169.43'; // Используем HTTPS с самоподписанным сертификатом
 
         // Функция переключения вкладок
         function showTab(tabId) {
@@ -740,7 +740,7 @@
             const ratingList = document.getElementById('ratingList');
             const currentUser = document.getElementById('currentUser');
             if (!ratingList) {
-                console.error('Элемент ratingList не найден');
+                console.error('��лемент ratingList не найден');
                 return;
             }
 
@@ -904,7 +904,7 @@
             } else {
                 // Запускаем игру
                 buttonText.textContent = 'Остановить проёб';
-                buttonIcon.textContent = '⏹';
+                buttonIcon.textContent = '���';
                 gameContainer.classList.add('game-active');
                 document.getElementById('earnedStars').textContent = '0.0000';
 
