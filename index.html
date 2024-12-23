@@ -29,54 +29,147 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 10px;
+            padding-bottom: 120px; /* Увеличенный отступ для меню и блока пользователя */
         }
 
         .rating-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--tg-theme-bg-color);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .rating-header h2 {
+            margin: 0;
+            font-size: 20px;
         }
 
         .rating-wrapper {
-            background: var(--tg-theme-bg-color, #ffffff);
-            border-radius: 12px;
-            overflow: hidden;
+            background: transparent;
+            box-shadow: none;
         }
 
         .rating-item {
             display: flex;
             align-items: center;
-            padding: 15px;
-            margin: 8px 0;
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            padding: 12px 15px;
+            margin: 6px 0;
+            background: var(--tg-theme-bg-color);
             border-radius: 10px;
-            transition: transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .rating-item:hover {
+            transform: translateX(2px);
         }
 
         .rating-position {
-            width: 30px;
+            width: 24px;
             text-align: center;
             font-weight: bold;
+            font-size: 14px;
+            color: var(--tg-theme-hint-color);
         }
 
         .rating-medal {
             width: 30px;
             text-align: center;
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .rating-info {
             flex: 1;
             margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
-        .rating-username {
+        .rating-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rating-stats {
+            display: flex;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--tg-theme-hint-color);
+        }
+
+        .rating-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--tg-theme-secondary-bg-color);
+            padding: 3px 6px;
+            border-radius: 6px;
+        }
+
+        .rating-total {
             font-weight: 600;
-            margin-bottom: 4px;
+            color: var(--tg-theme-button-color);
+            font-size: 14px;
+            padding: 4px 8px;
+            background: var(--tg-theme-secondary-bg-color);
+            border-radius: 6px;
         }
 
-        .rating-stars {
-            color: var(--tg-theme-hint-color, #999999);
-            font-size: 14px;
+        /* Стили для первых трех мест */
+        .rating-item:nth-child(1) {
+            background: linear-gradient(to right, var(--tg-theme-bg-color), rgba(255, 215, 0, 0.1));
+        }
+
+        .rating-item:nth-child(2) {
+            background: linear-gradient(to right, var(--tg-theme-bg-color), rgba(192, 192, 192, 0.1));
+        }
+
+        .rating-item:nth-child(3) {
+            background: linear-gradient(to right, var(--tg-theme-bg-color), rgba(205, 127, 50, 0.1));
+        }
+
+        /* Навигация */
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+            background: var(--tg-theme-bg-color);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-button {
+            border: none;
+            background: none;
+            padding: 8px;
+            color: var(--tg-theme-hint-color);
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+            width: 33.33%;
+        }
+
+        .nav-button.active {
+            color: var(--tg-theme-button-color);
+        }
+
+        .nav-button-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
         }
 
         /* Стили для игры */
@@ -91,19 +184,78 @@
             margin-bottom: 30px;
         }
 
+        .game-header h2 {
+            margin: 0;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .game-description {
+            color: var(--tg-theme-hint-color);
+            margin: 0;
+        }
+
+        .timer-container {
+            margin: 30px 0;
+        }
+
+        .timer-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--tg-theme-bg-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .timer-circle::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            border: 2px solid var(--tg-theme-button-color);
+            opacity: 0.5;
+        }
+
+        .timer-value {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-value #gameTime {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--tg-theme-button-color);
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color);
+            display: block;
+        }
+
         .game-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 15px 30px;
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
+            background: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
             cursor: pointer;
-            margin-bottom: 20px;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background 0.2s;
         }
 
         .game-button:active {
@@ -115,43 +267,294 @@
             font-size: 20px;
         }
 
-        .game-info {
-            text-align: center;
+        .game-stats {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            justify-content: center;
+        }
+
+        .stat-card {
+            flex: 1;
+            max-width: 200px;
+            background: var(--tg-theme-bg-color);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+        }
+
+        .stat-info {
+            text-align: left;
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
             color: var(--tg-theme-text-color);
+        }
+
+        .game-info {
+            margin-top: 30px;
+        }
+
+        .info-text {
+            color: var(--tg-theme-text-color);
+            margin: 10px 0;
         }
 
         .telegram-note {
             color: var(--tg-theme-hint-color);
             font-size: 14px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
-        /* Навигация */
-        .nav {
+        /* Анимация для активной игры */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .game-active .timer-circle {
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .game-active .timer-circle::after {
+            border-color: #ff4444;
+            opacity: 0.8;
+        }
+
+        /* Стили для страницы "О нас" */
+        .about-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 70px;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .about-header h2 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--tg-theme-text-color);
+        }
+
+        .about-section {
+            background: var(--tg-theme-bg-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .about-section h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            color: var(--tg-theme-text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-section p {
+            margin: 0;
+            line-height: 1.5;
+            color: var(--tg-theme-text-color);
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            gap: 10px;
+            color: var(--tg-theme-text-color);
+        }
+
+        .features-list li:not(:last-child) {
+            border-bottom: 1px solid var(--tg-theme-hint-color, rgba(0,0,0,0.1));
+        }
+
+        .channel-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+
+        .channel-link:active {
+            transform: scale(0.98);
+        }
+
+        .bonus-section {
+            background: linear-gradient(to right, var(--tg-theme-bg-color), rgba(255, 215, 0, 0.1));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        /* Стили для блока текущего пользователя */
+        .current-user {
             position: fixed;
-            bottom: 0;
+            bottom: 60px; /* Отступ от меню */
             left: 0;
             right: 0;
-            display: flex;
-            justify-content: space-around;
             padding: 10px;
             background: var(--tg-theme-bg-color);
             border-top: 1px solid rgba(0,0,0,0.1);
-            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 999;
         }
 
-        .nav-button {
-            border: none;
-            background: none;
-            padding: 10px;
+        .current-user-content {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            background: var(--tg-theme-secondary-bg-color);
+            border-radius: 10px;
+        }
+
+        .current-user-info {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .current-user-position {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             color: var(--tg-theme-hint-color);
-            cursor: pointer;
-            font-size: 14px;
-            transition: color 0.2s;
+            font-size: 13px;
         }
 
-        .nav-button.active {
-            color: var(--tg-theme-button-color);
+        .current-user-medal {
+            font-size: 16px;
+        }
+
+        .current-user-name {
+            font-weight: 600;
+            color: var(--tg-theme-text-color);
+        }
+
+        .current-user-stars {
+            background: var(--tg-theme-bg-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--tg-theme-hint-color);
+            font-size: 13px;
+        }
+
+        /* Стили для таймера */
+        .timer-container {
+            margin-bottom: 20px;
+        }
+
+        .timer-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--tg-theme-bg-color);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .timer-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .timer-label {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+        }
+
+        /* Стили для статистики */
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: var(--tg-theme-secondary-bg-color);
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color);
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .game-button:disabled {
+            cursor: not-allowed;
+            background: var(--tg-theme-hint-color);
+        }
+
+        .game-button:disabled:hover {
+            transform: none;
         }
     </style>
 </head>
@@ -160,10 +563,12 @@
     <div id="rating" class="content">
         <div class="rating-container">
             <div class="rating-header">
-                <h2>🏆 Рейтинг проёба Stars</h2>
+                <h2>Рейтинг проёбывателей №21</h2>
             </div>
-            <div class="rating-wrapper" id="ratingList">
-                <!-- Сюда будет загружен рейтинг -->
+            <div class="rating-wrapper">
+                <div id="ratingList">
+                    <!-- Сюда будут добавляться элементы рейтинга -->
+                </div>
             </div>
         </div>
     </div>
@@ -172,16 +577,44 @@
     <div id="game" class="content">
         <div class="game-container">
             <div class="game-header">
-                <h2>⏱ Проёб времени</h2>
+                <h2>⏱ Поёб времени</h2>
+                <p class="game-description">Проебывай время и зарабатывай Stars!</p>
             </div>
+
+            <div class="timer-container">
+                <div class="timer-circle">
+                    <div class="timer-value">
+                        <div id="gameTime">0</div>
+                    </div>
+                    <div class="timer-label">Сек</div>
+
+                </div>
+            </div>
+
             <button class="game-button" onclick="toggleGame()" id="gameButton">
                 <span class="game-button-icon">▶️</span>
                 <span class="game-button-text">Начать проёб времени</span>
             </button>
+
+            <div class="game-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Рекорд сесси��</div>
+                        <div class="stat-value"><span id="gameRecord">0</span></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐️</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Заработано Stars</div>
+                        <div class="stat-value"><span id="earnedStars">0</span></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="game-info">
-                <p>⏱ Текущее время: <span id="gameTime">0</span> секунд</p>
-                <p>🏆 Рекорд сессии: <span id="gameRecord">0</span> секунд</p>
-                <p>🌟 Stars автоматически добавляются в общий рейтинг!</p>
+                <p class="info-text">🌟 Stars автоматически добавляются в общий рейтинг!</p>
                 <p class="telegram-note">📱 Для сохранения Stars откройте игру через Telegram</p>
             </div>
         </div>
@@ -189,170 +622,305 @@
 
     <!-- Вкладка "О нас" -->
     <div id="about" class="content">
-        <h2>🌟 О проекте ProebalStars</h2>
-        <p>Этот бот создан для тех, кто хочет красиво и с размахом проебать свои Telegram Stars! 🌟</p>
-        <h3>⭐️ Что такое Stars?</h3>
-        <p>Stars - это внутренняя валюта Telegram, которую можно получить за подписку на Telegram Premium. Обычно Stars используются для поддержки каналов и ботов, но мы предлагаем более интересный способ их применения! 😎</p>
-        <h3>�� Зачем проебывать Stars?</h3>
-        <ul>
-            <li>👑 Для попадания в элитный клуб проёбывателей</li>
-            <li>📜 Ради получения уникальной справки</li>
-            <li>🌟 Чтобы войти в историю Telegram</li>
-            <li>🎁 Возможность стать частью тайного комьюнити</li>
-            <li>💪 Просто потому что можем!</li>
-        </ul>
-        <h3>🎁 Секреты бонус!</h3>
-        <p>При достижении высокой активности комьюнити и большого интереса к проекту, мы планируем запустить airdrop тайной монеты для самых активных участников!</p>
+        <div class="about-container">
+            <div class="about-header">
+                <h2>🌟 О проекте ProebalStars</h2>
+            </div>
+
+            <div class="about-section">
+                <h3>⭐️ Что такое Stars?</h3>
+                <p>Stars - это внутренняя валюта Telegram, которую ��ожно получ��ть за подписку на Telegram Premium. Обычно Stars используются для поддержки каналов и ботов, но мы предлагаем более интересный способ их применения! 😎</p>
+            </div>
+
+            <div class="about-section">
+                <h3>💫 Зачем проебывать Stars?</h3>
+                <ul class="features-list">
+                    <li>👑 Для попадания в элитный клуб проёбывателей</li>
+                    <li>📜 Ради получения уникальной справки</li>
+                    <li>🌟 Чтобы войти в историю Telegram</li>
+                    <li>🎁 Возможность стать частью тайного комьюнити</li>
+                    <li>💪 Просто потому что можем!</li>
+                </ul>
+            </div>
+
+            <div class="bonus-section">
+                <h3>🎁 Секретный бонус!</h3>
+                <p>При достижении высокой активности комьюнити и большого интереса к проекту, мы планируем запустить airdrop тайной монеты для амых активных участников!</p>
+            </div>
+
+            <a href="https://t.me/proebalstars" class="channel-link" target="_blank">
+                <span>📢 Подписаться на канал</span>
+                <span>@proebalstars</span>
+            </a>
+        </div>
     </div>
 
     <!-- Навигация -->
     <div class="nav">
-        <button class="nav-button" onclick="showTab('rating')">🏆 Рейтинг</button>
-        <button class="nav-button active" onclick="showTab('game')">⏱ Время</button>
-        <button class="nav-button" onclick="showTab('about')">ℹ️ О нас</button>
+        <button class="nav-button" onclick="showTab('rating')">
+            <span class="nav-button-icon">🏆</span>
+            <span>Рейтинг</span>
+        </button>
+        <button class="nav-button active" onclick="showTab('game')">
+            <span class="nav-button-icon">⏱</span>
+            <span>Время</span>
+        </button>
+        <button class="nav-button" onclick="showTab('about')">
+            <span class="nav-button-icon">ℹ️</span>
+            <span>О нас</span>
+        </button>
+    </div>
+
+    <!-- Блок текущего пользователя -->
+    <div class="current-user" id="currentUser" style="display: none;">
+        <div class="current-user-content">
+            <div class="current-user-info">
+                <div class="current-user-position">
+                    <span class="current-user-medal"></span>
+                    <span class="current-user-name"></span>
+                </div>
+                <div class="current-user-stats">
+                    <div class="rating-total"></div>
+                    <div class="rating-stats">
+                        <div class="rating-stat">
+                            <span>💰</span>
+                            <span class="current-user-bought"></span>
+                        </div>
+                        <div class="rating-stat">
+                            <span>⏱</span>
+                            <span class="current-user-earned"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
         // Определяем базовый URL для API
-        const API_BASE_URL = "https://89.111.169.43";
+        const API_BASE_URL = 'https://89.111.169.43';
+        // Функция переключения вкладок
+        function showTab(tabId) {
+            console.log("Переключение на вкладку:", tabId);
+
+            // Скрываем все вкладки
+            document.querySelectorAll(".content").forEach(tab => {
+                tab.style.display = "none";
+            });
+
+            // Убираем активный класс у всех кнопок
+            document.querySelectorAll(".nav-button").forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            // Показываем нужную вкладку
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.style.display = "block";
+            }
+
+            // Находим кнопку и устанавливаем ей активный класс
+            const button = document.querySelector(`.nav-button[onclick="showTab('${tabId}')"]`);
+            if (button) {
+                button.classList.add("active");
+            }
+
+            // Загружаем рейтинг если открыта вкладка рейтинга
+            if (tabId === "rating") {
+                loadRating();
+            }
+        }
+
+        // Функция загрузки рейтинга
+        async function loadRating() {
+            const ratingList = document.getElementById('ratingList');
+            if (!ratingList) {
+                console.error('Элемент ratingList не найден');
+                return;
+            }
+
+            try {
+                ratingList.innerHTML = '<div class="rating-loading">Загрузка рейтинга...</div>';
+
+                // Используем WebSocket для получения данных
+                const ws = new WebSocket('ws://89.111.169.43:8080/api/get_rating');
+
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    console.log('Получены данные рейтинга:', data);
+
+                    if (!data.top_users || !Array.isArray(data.top_users)) {
+                        throw new Error('Некорректные данные рейтинга');
+                    }
+
+                    let html = '';
+                    if (data.top_users.length > 0) {
+                        data.top_users.forEach((user, index) => {
+                            const position = index + 1;
+                            const medal = position <= 3 ? ['🥇','🥈','🥉'][position-1] : '👑';
+
+                            html += `
+                                <div class="rating-item">
+                                    <div class="rating-position">${position}</div>
+                                    <div class="rating-medal">${medal}</div>
+                                    <div class="rating-info">
+                                        <div class="rating-username">${user[0]}</div>
+                                        <div class="rating-stars">
+                                            ${parseFloat(user[2]).toFixed(4)}⭐️
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        html = '<div class="rating-empty">😴 Пока никто не проебал ни одной Stars!</div>';
+                    }
+
+                    ratingList.innerHTML = html;
+                };
+
+                ws.onerror = (error) => {
+                    console.error('Ошибка WebSocket:', error);
+                    ratingList.innerHTML = '<div class="rating-error">❌ Ошибка загрузки рейтинга</div>';
+                };
+
+            } catch (error) {
+                console.error('Ошибка загрузки рейтинга:', error);
+                ratingList.innerHTML = '<div class="rating-error">❌ Ошибка загрузки рейтинга</div>';
+            }
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            showTab('game'); // Показываем вкладку игры по умолчанию
+        });
 
         // Глобальные переменные для игры
         let gameInterval;
         let gameTime = 0;
         let gameRecord = 0;
 
-        // Функция для переключения вкладок
-        function showTab(tabId) {
-            console.log("Переключение на вкладку:", tabId);
-            document.querySelectorAll(".content").forEach(tab => {
-                tab.style.display = "none";
+        // Добавим функцию для показа уведомления
+        function showNotification(message) {
+            tg.showPopup({
+                title: '💫 Начисление Stars',
+                message: message,
+                buttons: [{type: 'ok'}]
             });
-            document.querySelectorAll(".nav-button").forEach(btn => {
-                btn.classList.remove("active");
-            });
-            document.getElementById(tabId).style.display = "block";
-            document.querySelector(`.nav-button[onclick="showTab('${tabId}'"]`).classList.add("active");
-
-            if (tabId === "rating") {
-                loadRating();
-            }
         }
 
-        // Функция для загрузки рейтинга
-        async function loadRating() {
-            const ratingList = document.getElementById("ratingList");
-            if (!ratingList) {
-                console.error("Элемент ratingList не найден");
+        // Функция для проверки доступа через Telegram
+        function checkTelegramAccess() {
+            if (!tg.initDataUnsafe?.user?.id) {
+                tg.showPopup({
+                    title: '⚠️ Доступ запрещен',
+                    message: 'Для проёба времени откройте игру через Telegram бота @ProebalStarsBot',
+                    buttons: [{type: 'close'}]
+                });
+                return false;
+            }
+            return true;
+        }
+
+        // Обновляе�� функцию toggleGame
+        function toggleGame() {
+            // Проверяем доступ перед запуском игры
+            if (!gameInterval && !checkTelegramAccess()) {
                 return;
             }
 
-            try {
-                ratingList.innerHTML = "<div class=\"rating-loading\">Загрузка рейтинга...</div>";
-                
-                const response = await fetch(`${API_BASE_URL}/api/get_rating`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                
-                const data = await response.json();
-                console.log("Получены данные рейтинга:", data);
-
-                if (!data.top_users || !Array.isArray(data.top_users)) {
-                    throw new Error("Некорректные данные рейтинга");
-                }
-
-                let html = "";
-                if (data.top_users.length > 0) {
-                    data.top_users.forEach((user, index) => {
-                        const position = index + 1;
-                        const medal = position <= 3 ? ["🥇","🥈","🥉"][position-1] : "👑";
-                        
-                        html += `
-                            <div class="rating-item">
-                                <div class="rating-position">${position}</div>
-                                <div class="rating-medal">${medal}</div>
-                                <div class="rating-info">
-                                    <div class="rating-username">${user[0]}</div>
-                                    <div class="rating-stars">
-                                        ${parseFloat(user[2]).toFixed(4)}⭐️
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    html = "<div class=\"rating-empty\">😴 Пока никто не проебал ни одной Stars!</div>";
-                }
-
-                ratingList.innerHTML = html;
-
-            } catch (error) {
-                console.error("Ошибка загрузки рейтинга:", error);
-                ratingList.innerHTML = "<div class=\"rating-error\">❌ Ошибка загрузки рейтинга</div>";
-            }
-        }
-
-        // Функция для игры
-        function toggleGame() {
-            const button = document.getElementById("gameButton");
-            const buttonText = button.querySelector(".game-button-text");
-            const buttonIcon = button.querySelector(".game-button-icon");
+            const button = document.getElementById('gameButton');
+            const buttonText = button.querySelector('.game-button-text');
+            const buttonIcon = button.querySelector('.game-button-icon');
+            const gameContainer = document.querySelector('.game-container');
 
             if (gameInterval) {
                 // Останавливаем игру
                 clearInterval(gameInterval);
                 gameInterval = null;
-                buttonText.textContent = "Начать проёб времени";
-                buttonIcon.textContent = "▶️";
-                
+                buttonText.textContent = 'Начать проёб времени';
+                buttonIcon.textContent = '▶️';
+                gameContainer.classList.remove('game-active');
+
                 // Проверяем рекорд
                 if (gameTime > gameRecord) {
                     gameRecord = gameTime;
-                    localStorage.setItem("gameRecord", gameRecord);
-                    document.getElementById("gameRecord").textContent = gameRecord;
+                    localStorage.setItem('gameRecord', gameRecord);
+                    document.getElementById('gameRecord').textContent = gameRecord;
+                    showConfetti();
                 }
-                
-                // Сохраняем результат
-                if (tg.initDataUnsafe?.user?.id) {
-                    fetch(`${API_BASE_URL}/api/save_score`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            user_id: tg.initDataUnsafe.user.id,
-                            username: tg.initDataUnsafe.user.username,
-                            score: gameTime
-                        })
-                    });
-                }
-                
+
                 gameTime = 0;
-                document.getElementById("gameTime").textContent = gameTime;
+                document.getElementById('gameTime').textContent = gameTime;
+                document.getElementById('earnedStars').textContent = '0.0000';
             } else {
                 // Запускаем игру
-                buttonText.textContent = "Остановить проёб";
-                buttonIcon.textContent = "⏹";
+                buttonText.textContent = 'Остановить проёб';
+                buttonIcon.textContent = '���';
+                gameContainer.classList.add('game-active');
+                document.getElementById('earnedStars').textContent = '0.0000';
+
+                let lastRewardTime = 0;
+
                 gameInterval = setInterval(() => {
                     gameTime++;
-                    document.getElementById("gameTime").textContent = gameTime;
+                    document.getElementById('gameTime').textContent = gameTime;
+
+                    // Обновляем отображение текущих Stars
+                    const currentStars = (gameTime * 0.0001).toFixed(4);
+                    document.getElementById('earnedStars').textContent = currentStars;
+
+                    // Проверяем, прошло ли 60 секунд
+                    if (gameTime - lastRewardTime >= 60) {
+                        const earnedStars = 0.006;
+                        lastRewardTime = gameTime;
+
+                        // Сохраняем заработанные Stars
+                        fetch(`${API_BASE_URL}/api/add_time_stars`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                user_id: tg.initDataUnsafe.user.id,
+                                username: tg.initDataUnsafe.user.username,
+                                stars: earnedStars
+                            })
+                        }).then(response => response.json())
+                        .then(data => {
+                            showNotification(`Начислено ${earnedStars} Stars за проёб времени! 🎉`);
+                        })
+                        .catch(error => {
+                            console.error('Ошибка при сохранении Stars:', error);
+                        });
+                    }
                 }, 1000);
             }
         }
 
+        // При загрузке страницы проверяем, открыто ли приложение через Telegram
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameButton = document.getElementById('gameButton');
+
+            if (!tg.initDataUnsafe?.user?.id) {
+                gameButton.disabled = true;
+                gameButton.style.opacity = '0.7';
+                gameButton.title = 'Откройте игру через Telegram';
+            }
+
+            showTab('game');
+        });
+
         // Загружаем рекорд при старте
-        const savedRecord = localStorage.getItem("gameRecord");
+        const savedRecord = localStorage.getItem('gameRecord');
         if (savedRecord) {
             gameRecord = parseInt(savedRecord);
-            document.getElementById("gameRecord").textContent = gameRecord;
+            document.getElementById('gameRecord').textContent = gameRecord;
         }
-
-        // Инициализация при загрузке страницы
-        document.addEventListener("DOMContentLoaded", () => {
-            showTab("game");
-        });
     </script>
 </body>
 </html>
