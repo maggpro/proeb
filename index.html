@@ -567,7 +567,7 @@
             </div>
             <div class="rating-wrapper">
                 <div id="ratingList">
-                    <!-- Сюда будут добавляться элементы рейтинга -->
+                    <!-- Сю��а будут добавляться элементы рейтинга -->
                 </div>
             </div>
         </div>
@@ -702,7 +702,7 @@
         tg.expand();
 
         // Определяем базовый URL для API
-        const API_BASE_URL = 'https://api.proebalstars.com'; // URL вашего сервера
+        const API_BASE_URL = 'http://89.111.169.43:8080'; // URL вашего сервера
 
         // Функция переключения вкладок
         function showTab(tabId) {
@@ -838,7 +838,7 @@
         let gameTime = 0;
         let gameRecord = 0;
 
-        // Добавим функцию для показа уведомления
+        // Добавим функцию для показа уве��омления
         function showNotification(message) {
             tg.showPopup({
                 title: '💫 Начисление Stars',
@@ -873,7 +873,7 @@
             const gameContainer = document.querySelector('.game-container');
 
             if (gameInterval) {
-                // Останавливае�� игру
+                // Останавливаем игру
                 clearInterval(gameInterval);
                 gameInterval = null;
                 buttonText.textContent = 'Начать проёб времени';
@@ -926,7 +926,7 @@
                             })
                         }).then(response => response.json())
                         .then(data => {
-                            showNotification(`Начислено ${earnedStars} Stars за проё�� времени! 🎉`);
+                            showNotification(`Начислено ${earnedStars} Stars за проёб времени! 🎉`);
                         })
                         .catch(error => {
                             console.error('Ошибка при сохранении Stars:', error);
